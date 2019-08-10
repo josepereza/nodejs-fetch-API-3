@@ -1,0 +1,85 @@
+<h1>{{title}}</h1>
+<p>Welcome to {{title}}</p>
+
+<div>
+   <input type="text" placeholder="nombre a buscar" id="busqueda">
+   <button id="boton4" class="btn">listado datos-mariadb</button>
+
+</div>
+<div id="salida">hola tio</div>
+<div id="salida2">hola tio2</div>
+
+<button id="boton" class="btn">pulsa</button>
+<button id="boton2" class="btn">ejemplo post</button>
+
+<input type="text" placeholder="nombre" id="nombre">
+<input type="email" placeholder="correo" id="correo">
+<button id="boton3" class="btn">ejemplo post2</button>
+
+ <a href="/prueba">PRUEBA</a>
+ <button class="enlace" role="link" onclick="window.location='/prueba'">¿Soy un botón o un enlace?</button>
+
+
+
+
+<script>
+   document.getElementById("boton").addEventListener("click", perro);
+   function perro() {
+      fetch('/ver').then((res) => { return res.text() })
+         .then((data) => { document.getElementById("salida").innerHTML = data });
+   }
+
+   document.getElementById("boton2").addEventListener("click", enviar);
+   function enviar() {
+      fetch('/datos', {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({
+            user: {
+               name: "John",
+               email: "john@example.com"
+            }
+         })
+      }).then((res) => { return res.text() })
+         .then((data) => { document.getElementById("salida").innerHTML = data });;
+
+   }
+
+   document.getElementById("boton3").addEventListener("click", enviarformulario);
+   function enviarformulario() {
+      var nombre = document.getElementById("nombre").value;
+      var correo = document.getElementById("correo").value;
+      fetch('/datos', {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({
+            user: {
+               name: nombre,
+               email: correo
+            }
+         })
+      }).then((res) => { return res.text() })
+         .then((data) => { document.getElementById("salida").innerHTML = data });
+
+   }
+
+     document.getElementById("boton4").addEventListener("click", listado);
+   function listado() {
+       var busqueda = document.getElementById("busqueda").value;
+      fetch('/listado',{
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({busqueda:busqueda})
+            }
+         ).then((res) => { return res.text() })
+         .then((data) => { document.getElementById("salida").innerHTML = data });
+   }
+
+  
+</script>
